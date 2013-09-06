@@ -4,8 +4,9 @@
 Assorted utilities for manipulating latitude and longitude values
 
 """
+from __future__ import unicode_literals
 
-__version__ = "1.3"
+__version__ = "1.4"
 
 import math, struct
 
@@ -57,7 +58,7 @@ def doubleToRawLongBits(value):
              of the given double-precision floating-point value.
     """
     # pack double into 64 bits, then unpack as long int
-    return struct.unpack('Q', struct.pack('d', value))[0]
+    return struct.unpack(b'Q', struct.pack(b'd', value))[0]
 
 class LatLongConverter:
     @classmethod
@@ -299,4 +300,60 @@ class DummyLongitude(DummyLatitude):
        Note: this class may be deleted if it doesn't turn out to be useful.
     """
     pass
+
+
+## The new simple API -- just methods that do what we need for ResponseLink, etc.
+DEGREES = "\xb0"     # "DEGREE SIGN"
+MINUTES = "\u2032"   # "PRIME"
+SECONDS = "\u2033"   # "DOUBLE PRIME"
+
+
+LAT_POSITIVE_DIRECTION = "North"
+LAT_NEGATIVE_DIRECTION = "South"
+LON_POSITIVE_DIRECTION = "East"
+LON_NEGATIVE_DIRECTION = "West"
+
+FORMAT1 = "{:.2f}\xb0 {}"
+FORMAT2 = "{:.0f}\xb0 {:.2f}\u2032 {}"
+FORMAT3 = "{:.0f}\xb0 {:.0f}\u2032 {:.2f}\u2033 {}"
+
+def reduce_base_60(f):
+    """extract the base 60 fractional portion of a floating point number.
+
+    i.e. minutes from degrees, seconds from minutes.
+    """
+    fract, whole = math.modf(f)
+    # Add a tiny bit before rounding to avoid binary rounding errors.
+    fract = abs(fract)
+    fract = (fract + 1e-14) * 60
+    fract = round(fract, 10)
+    return whole, fract
+
+def format_latlon2(f, positive_direction, negative_direction):
+    direction = positive_direction if f >= 0.0 else negative_direction
+    degrees, minutes = reduce_base_60(f)
+    degrees = abs(degrees)
+    return FORMAT2.format(degrees, minutes, direction)
+
+def format_latlon3(f, positive_direction, negative_direction):
+    direction = positive_direction if f >= 0.0 else negative_direction
+    degrees, minutes = reduce_base_60(f)
+    minutes, seconds = reduce_base_60(minutes)
+    degrees = abs(degrees)
+    return FORMAT3.format(degrees, minutes, seconds, direction)
+
+def format_lat(f):
+    return format_latlon2(f, LAT_POSITIVE_DIRECTION, LAT_NEGATIVE_DIRECTION)
+
+def format_lon(f):
+    return format_latlon2(f, LON_POSITIVE_DIRECTION, LON_NEGATIVE_DIRECTION)
+
+def format_lat_dms(f):
+    return format_latlon3(f, LAT_POSITIVE_DIRECTION, LAT_NEGATIVE_DIRECTION)
+
+def format_lon_dms(f):
+    return format_latlon3(f, LON_POSITIVE_DIRECTION, LON_NEGATIVE_DIRECTION)
+
+
+
 

@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
 """
-This setup is suitable for "python setup.py develop" if setuptools or
-distribute is installed.
+This setup is suitable for "python setup.py develop" if setuptools.
 """
 from setuptools import setup, find_packages
 
