@@ -313,9 +313,9 @@ LAT_NEGATIVE_DIRECTION = "South"
 LON_POSITIVE_DIRECTION = "East"
 LON_NEGATIVE_DIRECTION = "West"
 
-FORMAT1 = "{:.2f}\xb0 {}"
-FORMAT2 = "{:.0f}\xb0 {:.2f}\u2032 {}"
-FORMAT3 = "{:.0f}\xb0 {:.0f}\u2032 {:.2f}\u2033 {}"
+FORMAT1 = "{:.2f}\N{DEGREE SIGN} {}"
+FORMAT2 = "{:.0f}\N{DEGREE SIGN} {:.2f}\N{PRIME} {}"
+FORMAT3 = "{:.0f}\N{DEGREE SIGN} {:.0f}\N{PRIME} {:.2f}\N{DOUBLE PRIME} {}"
 
 def reduce_base_60(f):
     """extract the base 60 fractional portion of a floating point number.

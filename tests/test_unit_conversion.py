@@ -15,6 +15,8 @@ py.test test_unit_conversion.py
 from hazpy import unit_conversion
 import unittest
 
+import pytest
+
 KnownValues = [
     ## Known values from Handbook of Chemistry and Physics (HCP), except where noted
     ("length", "meters", "feet", 1, 3.2808398),
@@ -263,8 +265,24 @@ def test_FindUnitTypes():
     assert all_units['S'] == 'Density'
     assert all_units['feet/s'] == 'Velocity'
     assert all_units['m^2/s'] == 'Kinematic Viscosity'
+
+def test_is_same_unit():
+    # a few examples...not complete, but at least it's there and works for some cases
+
+    print "testing is_same_unit"
+    assert unit_conversion.is_same_unit('knot', 'knots')
+    assert unit_conversion.is_same_unit('knot', 'kts')
+    assert not unit_conversion.is_same_unit('knot', 'm/s')
+
+    assert unit_conversion.is_same_unit("gal/s", "gal/sec")
+    assert unit_conversion.is_same_unit("gallon per second", "gal/sec")
+    assert not unit_conversion.is_same_unit("gallon per hour", "gal/sec")
+
+    assert not unit_conversion.is_same_unit("meters", "gal/sec")
+
+    assert not unit_conversion.is_same_unit("something non existant", "gal/sec")
+    assert not unit_conversion.is_same_unit("meter", "meeters")
+    assert not unit_conversion.is_same_unit("non_existant", "")
+
     
-    
-if __name__ == "__main__":
-    unittest.main()
 

@@ -97,7 +97,7 @@ ConvertDataUnits = {
               "meter per minute" : (0.01666666666, ["m/min", "meters per minute"]),
               "centimeter per second"  : (.01,["cm/s"]),
               "kilometer per hour"  : (0.277777,["km/h", "km/hr"]),
-              "knot"  : (0.514444,["knots","kts"]),
+              "knot"  : (0.514444,["kts", "knots"]),
               "mile per hour"  : (0.44704,["mph","miles per hour"]),
               "foot per second"  : (0.3048,["ft/s", "ft/sec", "feet per second", "feet/s"]),
               "foot per minute"  : (0.00508,["ft/min", "feet per minute", "feet/min"]),

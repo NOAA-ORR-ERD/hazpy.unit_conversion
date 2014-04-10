@@ -88,12 +88,39 @@ def FindUnitTypes():
 
 def GetUnitAbbreviation(unit_type, unit):
     """
-    return the standard abreviaon for a given unit
+    return the standard abbreviation for a given unit
     
     :param unit_type: the type of unit: "mass", "length", etc.
     :param unit: the unit you want the abbreviation for: "gram", etc.
     """
     return ConvertDataUnits[unit_type][unit][1][0]
+
+def is_same_unit(unit1, unit2):
+    """
+    Checks if the two unit names passed in are the same
+
+    :param unit1: name of unit to compare
+    :type unit1: string
+
+    :param unit2: name of unit to compare
+    :type unit2: string
+
+    :returns: True if they are synonyms for the same unit.
+              False if they are different units.
+              False if one of them is not in the database.
+
+    """
+    all_types = FindUnitTypes()
+    try:
+        type1 = all_types[unit1]
+        type2 = all_types[unit2]
+    except KeyError:
+        return False
+    if type1 != type2:
+        return False
+    else:
+        Synonyms = Converters[Simplify(type1)].Synonyms
+        return Synonyms[Simplify(unit1)] == Synonyms[Simplify(unit2)]
 
 class ConverterClass:
     """
