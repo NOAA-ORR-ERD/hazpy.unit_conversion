@@ -11,17 +11,15 @@ can also be run with pytest:
 
 py.test test_unit_conversion.py
 """
+import sys
 
 # import the local copy
-import sys, os
-sys.path.insert(0, os.path.abspath("../"))
-
-from hazpy import unit_conversion
+import unit_conversion
 
 def test_import():
     print sys.path
     print "testing:", unit_conversion.__file__
-    assert False
+    assert True
 
 import unittest
 import pytest
@@ -171,22 +169,22 @@ def check_known_value(test):
 
 class testBadnames(unittest.TestCase):
     def testBadType(self):
-        self.failUnlessRaises(unit_conversion.InvalidUnitTypeError,
+        self.failUnlessRaises(ValueError,
                           unit_conversion.Convert,
                           "BadType","feet","miles", 0,
                           )
     def testBadUnit1(self):
-        self.failUnlessRaises(unit_conversion.InvalidUnitError,
+        self.failUnlessRaises(ValueError,
                           unit_conversion.Convert,
                           "Length","eggs","miles", 0,
                           )
     def testBadUnit2(self):
-        self.failUnlessRaises(unit_conversion.InvalidUnitError,
+        self.failUnlessRaises(ValueError,
                           unit_conversion.Convert,
                           "Length","feet","spam", 0,
                           )
     def testBadUnit3(self):
-        self.failUnlessRaises(unit_conversion.InvalidUnitError,
+        self.failUnlessRaises(ValueError,
                           unit_conversion.Convert,
                           "Density","API","feet", 0,
                           )
@@ -297,14 +295,14 @@ def test_is_same_unit():
 ## test the Exceptions
 
 def test_invalid_unit_convert():
-    with pytest.raises(unit_conversion.InvalidUnitError):
+    with pytest.raises(ValueError):
         unit_conversion.convert("length", "flintstones", "meters", 1.0)
-    with pytest.raises(unit_conversion.InvalidUnitError):
+    with pytest.raises(ValueError):
         unit_conversion.convert("length", "feet", "flintstones", 1.0)
 
-    with pytest.raises(unit_conversion.InvalidUnitError):
+    with pytest.raises(ValueError):
         unit_conversion.convert("temperature", "feet", "C", 1.0)
-    with pytest.raises(unit_conversion.InvalidUnitError):
+    with pytest.raises(ValueError):
         unit_conversion.convert("temperature", "f", "feet", 1.0)
 
 

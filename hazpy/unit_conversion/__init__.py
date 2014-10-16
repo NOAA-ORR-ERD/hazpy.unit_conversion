@@ -9,7 +9,7 @@ a data module, plus a module for lat-lon conversion.
 All of unit_conversion is imported here for convenience
 
 """
-__version__ = "2.1"
+__version__ = "2.2"
 
 # to support the hazpy namespace packege
 __import__('pkgutil').extend_path(__path__, __name__)
