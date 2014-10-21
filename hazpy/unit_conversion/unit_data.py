@@ -190,6 +190,14 @@ def all_unit_names():
             result.append("\n")
     return "".join(result) 
 
+def dump_to_json(filename=None):
+    import sys, json
+    if filename:
+        f = open(filename, 'w')
+    else:
+        f = sys.stdout
+    f.write(json.dumps(ConvertDataUnits, indent=2, separators=(',', ':') ) )
+
 
              
 
