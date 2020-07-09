@@ -1,3 +1,12 @@
+**Warning**
+
+This repo is now deprecated. please see:
+
+https://github.com/NOAA-ORR-ERD/PyNUCOS
+
+For the maintained version
+
+
 hazpy.unit_conversion
 =====================
 
